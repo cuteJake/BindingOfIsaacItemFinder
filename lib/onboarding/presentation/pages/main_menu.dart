@@ -1,12 +1,11 @@
-
-import 'package:bindingofisaacitemfinderapp/character_screen.dart';
-import 'package:bindingofisaacitemfinderapp/item_menu.dart';
+import 'package:bindingofisaacitemfinderapp/character_selection/presentation/pages/character_selection_screen.dart';
+import 'package:bindingofisaacitemfinderapp/core/presentation/widgets/core_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:flutter_avif/flutter_avif.dart';
+import '../../../item_menu/presentation/pages/item_menu.dart';
 
 const String buttonMainMenuFinder = '''
-<svg width="327" height="150" viewBox="0 0 327 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="327" height="200" viewBox="0 0 327 150" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M0 31.808C0 21.8734 9.04309 14.3427 18.9626 13.796C56.8476 11.7078 92.6359 -11.9608 140.938 7.85684C193.902 29.5868 258.315 -4.67906 316.256 9.53531C322.799 11.1404 327 17.2672 327 24.0039V132.469C327 140.806 320.604 147.694 312.268 147.559C293.927 147.261 262.758 144.319 244.179 129.069C216.62 106.448 142.938 162.829 99.0996 147.229C72.1008 137.622 40.769 139.849 20.6822 142.977C10.1996 144.609 0 136.697 0 126.088V31.808Z" fill="#E5D7CE"/>
 <path d="M75 83V81H73V79H77V77H79V73H77V65H79V63H73V61H75V59H87V63H83V77H87V79H89V81H85V83H75Z" fill="#24180E"/>
 <path d="M97 83V79H95V75H91V71H107V73H105V75H101V83H97Z" fill="#24180E"/>
@@ -56,9 +55,9 @@ class _MainMenuState extends State<MainMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffd2b09a),
+      backgroundColor: kColorPrimary,
       appBar: AppBar(
-        backgroundColor: const Color(0xffd2b09a),
+        backgroundColor: kColorPrimary,
         title: const Text(
           'Main Menu',style: TextStyle(
                 fontFamily: 'upheavtt',  
@@ -69,15 +68,6 @@ class _MainMenuState extends State<MainMenu> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // AvifImage.asset(
-            //     "assets/img/bindingofisaacrepentance.avif",
-            //     height: 100,
-            //     fit: BoxFit.contain,
-            //   ),
-            //   const Text(
-            //   'Item Finder',
-            //   style: TextStyle(fontSize: 24, fontFamily: 'upheavtt'),
-            // ),
             GestureDetector(
               onTap: () {
                 Navigator.push(

@@ -1,10 +1,8 @@
-import 'package:bindingofisaacitemfinderapp/item_gallery_activ.dart';
-import 'package:bindingofisaacitemfinderapp/item_gallery_passivs.dart';
-import 'package:bindingofisaacitemfinderapp/item_gallery_pickups.dart';
-// import 'package:bindingofisaacitemfinderapp/main.dart';
+import 'package:bindingofisaacitemfinderapp/item_gallery/presentation/pages/active_item_gallery.dart';
+import 'package:bindingofisaacitemfinderapp/item_gallery/presentation/pages/passiv_item_gallery.dart';
+import 'package:bindingofisaacitemfinderapp/item_gallery/presentation/pages/pickup_item_gallery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:flutter_avif/flutter_avif.dart';
 
 const String buttonActivItems = '''
 <svg width="327" height="150" viewBox="0 0 327 150" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -106,7 +104,7 @@ class _ItemMenuState extends State<ItemMenu> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const PassivMenu(),
+                      builder: (context) => PassivMenu(),
                     ),
                   );
               },

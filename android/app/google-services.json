@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "532395073386",
+    "project_id": "binding-of-isaac-item-finder",
+    "storage_bucket": "binding-of-isaac-item-finder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532395073386:android:cad3e4ffd9df930b24cf13",
+        "android_client_info": {
+          "package_name": "com.example.bindingofisaacitemfinderapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqtA5mm96Dvl-mSIaq1QHamuGPYjt17co"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

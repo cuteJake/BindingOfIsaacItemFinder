@@ -1,4 +1,5 @@
-import 'package:bindingofisaacitemfinderapp/item_menu.dart';
+import 'package:bindingofisaacitemfinderapp/core/presentation/widgets/core_colors.dart';
+import 'package:bindingofisaacitemfinderapp/item_menu/presentation/pages/item_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:flutter_avif/flutter_avif.dart';
@@ -54,9 +55,9 @@ class _ActivMenuState extends State<ActivMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffd2b09a),
+      backgroundColor: kColorPrimary,
       appBar: AppBar(
-        backgroundColor: const Color(0xffd2b09a),
+        backgroundColor: kColorPrimary,
         title: const Text(
           'Activ Items',style: TextStyle(
                 fontFamily: 'upheavtt',  
@@ -67,15 +68,6 @@ class _ActivMenuState extends State<ActivMenu> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // AvifImage.asset(
-            //     "assets/img/bindingofisaacrepentance.avif",
-            //     height: 100,
-            //     fit: BoxFit.contain,
-            //   ),
-            //   const Text(
-            //   'Item Finder',
-            //   style: TextStyle(fontSize: 24, fontFamily: 'upheavtt'),
-            // ),
             GestureDetector(
               onTap: () {
                 Navigator.push(

@@ -6,9 +6,12 @@
 
 #include "generated_plugin_registrant.h"
 
+#include <firebase_core/firebase_core_plugin_c_api.h>
 #include <flutter_avif_windows/flutter_avif_windows_plugin.h>
 
 void RegisterPlugins(flutter::PluginRegistry* registry) {
+  FirebaseCorePluginCApiRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("FirebaseCorePluginCApi"));
   FlutterAvifWindowsPluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("FlutterAvifWindowsPlugin"));
 }

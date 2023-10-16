@@ -1,8 +1,8 @@
 
-import 'package:bindingofisaacitemfinderapp/item_menu.dart';
+import 'package:bindingofisaacitemfinderapp/core/presentation/widgets/core_colors.dart';
+import 'package:bindingofisaacitemfinderapp/item_menu/presentation/pages/item_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:flutter_avif/flutter_avif.dart';
 
 const String buttonMainMenuFinder = '''
 <svg width="327" height="150" viewBox="0 0 327 150" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -55,9 +55,9 @@ class _PickupMenuState extends State<PickupMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffd2b09a),
+      backgroundColor: kColorPrimary,
       appBar: AppBar(
-        backgroundColor: const Color(0xffd2b09a),
+        backgroundColor: kColorPrimary,
         title: const Text(
           'Pickups',style: TextStyle(
                 fontFamily: 'upheavtt',  
@@ -68,15 +68,6 @@ class _PickupMenuState extends State<PickupMenu> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // AvifImage.asset(
-            //     "assets/img/bindingofisaacrepentance.avif",
-            //     height: 100,
-            //     fit: BoxFit.contain,
-            //   ),
-            //   const Text(
-            //   'Item Finder',
-            //   style: TextStyle(fontSize: 24, fontFamily: 'upheavtt'),
-            // ),
             GestureDetector(
               onTap: () {
                 Navigator.push(
