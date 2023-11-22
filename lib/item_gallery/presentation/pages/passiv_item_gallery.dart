@@ -3,7 +3,8 @@ import 'package:bindingofisaacitemfinderapp/item_gallery/application/passiv_item
 import 'package:bindingofisaacitemfinderapp/item_gallery/domain/passiv_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:blobs/blobs.dart';
+import 'package:provider/provider.dart';
+
 
 const String iconBackground = '''
 <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
