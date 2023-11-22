@@ -5,6 +5,7 @@ class ActiveItem {
   final int itemID;
   final String itemIMG;
   final String itemName;
+  final String itemRechargerate;
   final String itemPool;
   final String itemType;
 
@@ -13,6 +14,7 @@ class ActiveItem {
     required this.itemID,
     required this.itemIMG,
     required this.itemName,
+    required this.itemRechargerate,
     required this.itemPool,
     required this.itemType,
   });
@@ -23,6 +25,7 @@ class ActiveItem {
       itemID: json['itemID'] as int,
       itemIMG: json['itemIMG'] as String,
       itemName: json['itemName'] as String,
+      itemRechargerate: json['itemRechargerate'] as String,
       itemPool: json['itemPool'] as String,
       itemType: json['itemType'] as String,
     );

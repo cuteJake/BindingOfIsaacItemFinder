@@ -73,6 +73,7 @@ class ActiveMenu extends StatelessWidget {
                                     Image.network(activeItem.itemIMG.isEmpty ? 'https://firebasestorage.googleapis.com/v0/b/binding-of-isaac-item-finder.appspot.com/o/items%2FpassivItems%2Fcat_face_mini.png?alt=media&token=04d44347-24ef-44ac-8346-4288c49f1b7a' : activeItem.itemIMG,),
                                     Text(activeItem.itemName),
                                     Text(activeItem.itemEffect),
+                                    Text(activeItem.itemRechargerate),
                                     Text(activeItem.itemType),
                                     Text(activeItem.itemPool),
                                   ],
