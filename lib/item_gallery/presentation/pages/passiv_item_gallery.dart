@@ -3,8 +3,6 @@ import 'package:bindingofisaacitemfinderapp/item_gallery/application/passiv_item
 import 'package:bindingofisaacitemfinderapp/item_gallery/domain/passiv_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
-
 
 const String iconBackground = '''
 <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -12,21 +10,16 @@ const String iconBackground = '''
 </svg>
 ''';
 const String popUpInfoBox = '''
-<svg width="324" height="371" viewBox="0 0 324 371" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M1.37223 47.2437C-0.476213 39.0626 4.17758 30.815 12.2267 28.4571C44.5225 18.9963 124.937 -2.47339 181.245 0.234205C224.614 2.31963 285.845 20.2942 312.161 28.6041C319.617 30.9584 324.079 38.4152 322.918 46.1473C317.503 82.2321 303.668 183.651 307.68 253.792C309.424 284.293 315.42 324.198 319.87 350.895C321.961 363.437 309.335 373.866 297.326 369.689C255.458 355.123 174.762 331.167 116.815 339.454C88.9825 343.434 52.6682 356.815 27.5482 367.128C15.3101 372.153 1.71411 361.404 4.01905 348.377C11.9601 303.496 24.4589 220.059 20.1695 159.565C17.5166 122.15 6.89394 71.6826 1.37223 47.2437Z" fill="#AA836A"/>
+<svg width="372" height="371" viewBox="0 0 372 371" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.01782 77.5896C0.961459 33.0039 41.1137 -6.27451 85.9616 0.837192C137.039 8.93666 196.915 15.9058 233.742 11.7413C252.715 9.5957 271.688 6.68399 289.426 3.53655C333.791 -4.33544 375.841 32.5069 371.72 76.963C367.695 120.388 364.425 171.246 365.939 211.945C366.262 220.631 366.846 229.995 367.607 239.65C371.615 290.518 311.374 345.061 260.204 350.928C197.121 358.16 124.368 374.357 50.5322 370.381C16.9395 368.572 -4.16862 336.378 0.694444 303.405C7.49891 257.27 15.064 192.838 13.285 143.528C12.5605 123.447 10.079 100.125 7.01782 77.5896Z" fill="#E5D7CE"/>
 </svg>
 ''';
 
-class PassivMenu extends StatefulWidget {
+class PassivMenu extends StatelessWidget {
   PassivMenu({super.key});
 
   final PassivItemService passivItemService = PassivItemService();
 
-  @override
-  State<PassivMenu> createState() => _PassivMenuState();
-}
-
-class _PassivMenuState extends State<PassivMenu> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -36,7 +29,7 @@ class _PassivMenuState extends State<PassivMenu> {
       appBar: AppBar(
         backgroundColor: kColorPrimary,
         title: const Text(
-          'Passiv Items',
+          'Passive Items',
           style: TextStyle(
             fontFamily: 'upheavtt',
           ),
@@ -48,6 +41,9 @@ class _PassivMenuState extends State<PassivMenu> {
           child: StreamBuilder(
             stream: PassivItemService().getPassivItemStream(),
             builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              }
               return GridView.count(
                 crossAxisCount: 3,
                 crossAxisSpacing: 20,
@@ -60,30 +56,34 @@ class _PassivMenuState extends State<PassivMenu> {
                     return GestureDetector(
                       onTap: () {
                         showDialog(
-                          barrierColor: Colors.transparent,
+                          barrierColor: kColorPrimary.withOpacity(0.5),
                           context: context,
                           builder: (context) => AlertDialog(
                             elevation: 0,
                             backgroundColor: kColorTransparent,
                             actionsAlignment: MainAxisAlignment.center,
-                            content: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                SvgPicture.string(popUpInfoBox),
-                                SizedBox(
+                            content:
+                                Stack(alignment: Alignment.center, children: [
+                              SvgPicture.string(popUpInfoBox),
+                              SizedBox(
                                 height: 300,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.network(passivItem.itemIMG),
-                                    Text(passivItem.itemName),
-                                    Text(passivItem.itemEffect),
-                                    Text(passivItem.itemType),
-                                    Text(passivItem.itemPool),
-                                  ],
+                                child: Padding(
+                                  padding: const EdgeInsets.all(50.0),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Image.network(passivItem.itemIMG.isEmpty ? 'https://firebasestorage.googleapis.com/v0/b/binding-of-isaac-item-finder.appspot.com/o/items%2FpassivItems%2Fcat_face_mini.png?alt=media&token=04d44347-24ef-44ac-8346-4288c49f1b7a' : passivItem.itemIMG,),
+                                        Text(passivItem.itemName),
+                                        Text(passivItem.itemEffect),
+                                        Text(passivItem.itemType),
+                                        Text(passivItem.itemPool),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              ),]
-                            ),
+                              ),
+                            ]),
                           ),
                         );
                       },
@@ -92,7 +92,7 @@ class _PassivMenuState extends State<PassivMenu> {
                         children: [
                           SvgPicture.string(iconBackground),
                           Image.network(
-                            passivItem.itemIMG,
+                            passivItem.itemIMG.isEmpty ? 'https://firebasestorage.googleapis.com/v0/b/binding-of-isaac-item-finder.appspot.com/o/items%2FpassivItems%2Fcat_face_mini.png?alt=media&token=04d44347-24ef-44ac-8346-4288c49f1b7a' : passivItem.itemIMG,
                             scale: 0.5,
                           ),
                         ],

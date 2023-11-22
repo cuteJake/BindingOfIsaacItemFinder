@@ -1,115 +1,101 @@
-
 import 'package:bindingofisaacitemfinderapp/core/presentation/widgets/core_colors.dart';
-import 'package:bindingofisaacitemfinderapp/item_menu/presentation/pages/item_menu.dart';
+import 'package:bindingofisaacitemfinderapp/item_gallery/application/trinket_item_service.dart';
+import 'package:bindingofisaacitemfinderapp/item_gallery/domain/trinket_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-const String buttonMainMenuFinder = '''
-<svg width="327" height="150" viewBox="0 0 327 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0 31.808C0 21.8734 9.04309 14.3427 18.9626 13.796C56.8476 11.7078 92.6359 -11.9608 140.938 7.85684C193.902 29.5868 258.315 -4.67906 316.256 9.53531C322.799 11.1404 327 17.2672 327 24.0039V132.469C327 140.806 320.604 147.694 312.268 147.559C293.927 147.261 262.758 144.319 244.179 129.069C216.62 106.448 142.938 162.829 99.0996 147.229C72.1008 137.622 40.769 139.849 20.6822 142.977C10.1996 144.609 0 136.697 0 126.088V31.808Z" fill="#E5D7CE"/>
-<path d="M75 83V81H73V79H77V77H79V73H77V65H79V63H73V61H75V59H87V63H83V77H87V79H89V81H85V83H75Z" fill="#24180E"/>
-<path d="M97 83V79H95V75H91V71H107V73H105V75H101V83H97Z" fill="#24180E"/>
-<path d="M113 83V81H111V75H109V73H111V71H121V73H115V75H119V77H115V79H125V81H121V83H113Z" fill="#24180E"/>
-<path d="M139 83V77H135V75H133V83H129V71H135V73H139V71H143V79H145V83H139Z" fill="#24180E"/>
-<path d="M161 83V81H159V61H161V59H175V63H163V69H165V67H171V73H163V79H165V83H161Z" fill="#24180E"/>
-<path d="M179 83V69H181V71H183V83H179Z" fill="#24180E"/>
-<path d="M197 83V81H193V79H191V81H189V83H187V75H185V71H191V73H193V75H195V73H197V71H199V83H197Z" fill="#24180E"/>
-<path d="M205 83V81H203V69H205V67H211V69H215V71H217V79H215V81H209V83H205ZM211 79V77H213V71H205V73H207V79H211Z" fill="#24180E"/>
-<path d="M223 83V81H221V75H219V73H221V71H231V73H225V75H229V77H225V79H235V81H231V83H223Z" fill="#24180E"/>
-<path d="M239 83V75H237V71H249V73H251V75H249V79H251V81H253V83H247V81H245V79H243V81H241V83H239ZM245 75V73H241V75H245Z" fill="#24180E"/>
+const String iconBackground = '''
+<svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M2.10822 20.3513C0.561573 8.85594 10.8154 -1.27105 22.2685 0.562529C35.3123 2.65078 50.6033 4.44761 60.0079 3.37388C64.8531 2.8207 69.6983 2.06998 74.2282 1.25849C85.558 -0.771107 96.2964 8.72778 95.244 20.1897C94.2161 31.3858 93.381 44.4983 93.7677 54.9914C93.8503 57.2311 93.9993 59.6452 94.1936 62.1346C95.2172 75.2496 79.8333 89.3122 66.7657 90.8248C50.6559 92.6896 32.0764 96.8655 13.2207 95.8403C4.64196 95.3738 -0.748522 87.0734 0.493384 78.5723C2.23107 66.6774 4.16302 50.0652 3.70869 37.3518C3.52368 32.1745 2.88996 26.1615 2.10822 20.3513Z" fill="#E5D7CE"/>
 </svg>
 ''';
-const String buttonMainMenuBib = '''
-<svg width="327" height="150" viewBox="0 0 327 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0 31.808C0 21.8734 9.04309 14.3427 18.9626 13.796C56.8476 11.7078 92.6359 -11.9608 140.938 7.85684C193.902 29.5868 258.315 -4.67906 316.256 9.53531C322.799 11.1404 327 17.2672 327 24.0039V132.469C327 140.806 320.604 147.694 312.268 147.559C293.927 147.261 262.758 144.319 244.179 129.069C216.62 106.448 142.938 162.829 99.0996 147.229C72.1008 137.622 40.769 139.849 20.6822 142.977C10.1996 144.609 0 136.697 0 126.088V31.808Z" fill="#E5D7CE"/>
-<path d="M102 83H100H98H96H94H92H90V81V79V77V75V73V71V69V67V65V63V61H92H94H96H98H100H102H104V63H106V65V67H104V69V71H106V73H108V75V77V79H106V81H104V83H102ZM102 79H104V77V75V73H102H100H98H96H94V75V77V79H96H98H100H102ZM100 69H102V67V65V63H100H98H96V65H94V67V69H96H98H100ZM114 83H112V81V79V77V75V73V71V69H114V71H116V73V75V77V79V81V83H114ZM130 83H128H126H124H122V81V79V77V75H120V73H122V71H124V69H126H128H130H132V71V73H130V75H132H134V77V79V81H132V83H130ZM128 81V79H130V77H128H126H124V79H126V81H128ZM128 73V71H126V73H128ZM142 83H140H138V81V79H136V77V75V73V71H138V69H140V71V73V75V77V79H142H144V81V83H142ZM150 83H148V81V79V77V75V73V71V69H150V71H152V73V75V77V79V81V83H150ZM164 83H162H160H158V81H156V79H154V77V75H156V73V71H158V69H160H162H164H166V71H168V73V75V77V79V81H166V83H164ZM164 79H166V77V75H164V73H162H160H158V75V77H160V79H162H164ZM178 83H176V81V79H174V77V75H172H170V73V71H172H174H176H178H180H182H184H186V73H184V75H182H180V77V79V81V83H178ZM192 83V81H190V79V77V75H188V73V71H190V69H192V71V73H194V75H196H198H200V73V71V69H202V71H204V73V75V77V79V81V83H202H200V81V79H198H196H194V81V83H192ZM216 83H214H212H210V81H208V79V77V75H206V73H208V71H210H212H214H216H218V73H216H214H212V75H214H216V77H214H212V79H214H216H218H220H222V81H220H218V83H216ZM236 83H234V81H232H230V83H228H226V81V79V77V75H224V73V71H226H228V73V75H230H232V73H234H236H238V75H236V77H234V79H236H238V81V83H236Z" fill="#24180E"/>
-</svg>
-''';
-const String buttonMainMenuChar = '''
-<svg width="327" height="150" viewBox="0 0 327 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0 31.808C0 21.8734 9.04309 14.3427 18.9626 13.796C56.8476 11.7078 92.6359 -11.9608 140.938 7.85684C193.902 29.5868 258.315 -4.67906 316.256 9.53531C322.799 11.1404 327 17.2672 327 24.0039V132.469C327 140.806 320.604 147.694 312.268 147.559C293.927 147.261 262.758 144.319 244.179 129.069C216.62 106.448 142.938 162.829 99.0996 147.229C72.1008 137.622 40.769 139.849 20.6822 142.977C10.1996 144.609 0 136.697 0 126.088V31.808Z" fill="#E5D7CE"/>
-<path d="M101 65V63H93V69H91V73H93V75H95V77H99V75H103V79H101V81H93V79H91V77H89V75H87V67H89V63H91V61H93V59H101V61H103V65H101Z" fill="#24180E"/>
-<path d="M109 83V81H107V75H105V71H107V69H109V73H111V75H117V69H119V71H121V83H117V79H111V83H109Z" fill="#24180E"/>
-<path d="M125 83V73H127V71H129V69H131V71H133V73H135V77H137V83H133V79H127V83H125ZM131 77V75H129V77H131Z" fill="#24180E"/>
-<path d="M141 83V75H139V71H151V73H153V75H151V79H153V81H155V83H149V81H147V79H145V81H143V83H141ZM147 75V73H143V75H147Z" fill="#24180E"/>
-<path d="M159 83V73H161V71H163V69H165V71H167V73H169V77H171V83H167V79H161V83H159ZM165 77V75H163V77H165Z" fill="#24180E"/>
-<path d="M183 83V81H179V83H175V75H173V71H177V75H181V73H187V75H185V77H183V79H187V83H183Z" fill="#24180E"/>
-<path d="M195 83V79H193V75H189V71H205V73H203V75H199V83H195Z" fill="#24180E"/>
-<path d="M211 83V81H209V75H207V73H209V71H219V73H213V75H217V77H213V79H223V81H219V83H211Z" fill="#24180E"/>
-<path d="M227 83V75H225V71H237V73H239V75H237V79H239V81H241V83H235V81H233V79H231V81H229V83H227ZM233 75V73H229V75H233Z" fill="#24180E"/>
+const String popUpInfoBox = '''
+<svg width="372" height="371" viewBox="0 0 372 371" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M7.01782 77.5896C0.961459 33.0039 41.1137 -6.27451 85.9616 0.837192C137.039 8.93666 196.915 15.9058 233.742 11.7413C252.715 9.5957 271.688 6.68399 289.426 3.53655C333.791 -4.33544 375.841 32.5069 371.72 76.963C367.695 120.388 364.425 171.246 365.939 211.945C366.262 220.631 366.846 229.995 367.607 239.65C371.615 290.518 311.374 345.061 260.204 350.928C197.121 358.16 124.368 374.357 50.5322 370.381C16.9395 368.572 -4.16862 336.378 0.694444 303.405C7.49891 257.27 15.064 192.838 13.285 143.528C12.5605 123.447 10.079 100.125 7.01782 77.5896Z" fill="#E5D7CE"/>
 </svg>
 ''';
 
-class PickupMenu extends StatefulWidget {
-  const PickupMenu({super.key});
+class PickupsMenu extends StatelessWidget {
+  PickupsMenu({super.key});
 
-  @override
-  State<PickupMenu> createState() => _PickupMenuState();
-}
-
-class _PickupMenuState extends State<PickupMenu> {
-  final placeholder = const SizedBox(
-    height: 100,
-  );
+  final TrinketItemService trinketItemService = TrinketItemService();
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: kColorPrimary,
       appBar: AppBar(
         backgroundColor: kColorPrimary,
         title: const Text(
-          'Pickups',style: TextStyle(
-                fontFamily: 'upheavtt',  
-              ),
+          'Pickups',
+          style: TextStyle(
+            fontFamily: 'upheavtt',
+          ),
         ),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ItemMenu(),
-                    ),
-                  );
-              },
-              child: SvgPicture.string(
-                buttonMainMenuFinder,
-              ),
-            ),
-            const SizedBox(height: 20,),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ItemMenu(),
-                    ),
-                  );
-              },
-              child: SvgPicture.string(
-                buttonMainMenuBib,
-              ),
-            ),
-            const SizedBox(height: 20,),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ItemMenu(),
-                    ),
-                  );
-              },
-              child: SvgPicture.string(
-                buttonMainMenuChar,
-              ),
-            ),
-          ],
+        child: SizedBox(
+          width: width * 0.8,
+          child: StreamBuilder(
+            stream: TrinketItemService().getTrinketItemStream(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              }
+              return GridView.count(
+                crossAxisCount: 3,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+                children: List.generate(
+                  snapshot.data!.docs.length,
+                  (index) {
+                    TrinketItem trinketItem =
+                        TrinketItem.fromSnapshot(snapshot.data!.docs[index]);
+                    return GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          barrierColor: kColorPrimary.withOpacity(0.5),
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            elevation: 0,
+                            backgroundColor: kColorTransparent,
+                            actionsAlignment: MainAxisAlignment.center,
+                            content:
+                                Stack(alignment: Alignment.center, children: [
+                              SvgPicture.string(popUpInfoBox),
+                              SizedBox(
+                                height: 300,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.network(trinketItem.trinketIMG.isEmpty ? 'https://firebasestorage.googleapis.com/v0/b/binding-of-isaac-item-finder.appspot.com/o/items%2FpassivItems%2Fcat_face_mini.png?alt=media&token=04d44347-24ef-44ac-8346-4288c49f1b7a' : trinketItem.trinketIMG,),
+                                    Text(trinketItem.trinketName),
+                                    Text(trinketItem.trinketEffect),
+                                  ],
+                                ),
+                              ),
+                            ]),
+                          ),
+                        );
+                      },
+                      child: Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: [
+                          SvgPicture.string(iconBackground),
+                          Image.network(
+                            trinketItem.trinketIMG.isEmpty ? 'https://firebasestorage.googleapis.com/v0/b/binding-of-isaac-item-finder.appspot.com/o/items%2FpassivItems%2Fcat_face_mini.png?alt=media&token=04d44347-24ef-44ac-8346-4288c49f1b7a' : trinketItem.trinketIMG,
+                            scale: 0.5,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

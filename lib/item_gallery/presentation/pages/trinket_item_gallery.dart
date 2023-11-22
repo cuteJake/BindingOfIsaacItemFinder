@@ -1,6 +1,6 @@
 import 'package:bindingofisaacitemfinderapp/core/presentation/widgets/core_colors.dart';
-import 'package:bindingofisaacitemfinderapp/item_gallery/application/active_item_service.dart';
-import 'package:bindingofisaacitemfinderapp/item_gallery/domain/active_item_model.dart';
+import 'package:bindingofisaacitemfinderapp/item_gallery/application/trinket_item_service.dart';
+import 'package:bindingofisaacitemfinderapp/item_gallery/domain/trinket_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -15,10 +15,10 @@ const String popUpInfoBox = '''
 </svg>
 ''';
 
-class ActiveMenu extends StatelessWidget {
-  ActiveMenu({super.key});
+class TrinketMenu extends StatelessWidget {
+  TrinketMenu({super.key});
 
-  final ActiveItemService activeItemService = ActiveItemService();
+  final TrinketItemService trinketItemService = TrinketItemService();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class ActiveMenu extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: kColorPrimary,
         title: const Text(
-          'Active Items',
+          'Trinkets',
           style: TextStyle(
             fontFamily: 'upheavtt',
           ),
@@ -39,7 +39,7 @@ class ActiveMenu extends StatelessWidget {
         child: SizedBox(
           width: width * 0.8,
           child: StreamBuilder(
-            stream: ActiveItemService().getActiveItemStream(),
+            stream: TrinketItemService().getTrinketItemStream(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
@@ -51,8 +51,8 @@ class ActiveMenu extends StatelessWidget {
                 children: List.generate(
                   snapshot.data!.docs.length,
                   (index) {
-                    ActiveItem activeItem =
-                        ActiveItem.fromSnapshot(snapshot.data!.docs[index]);
+                    TrinketItem trinketItem =
+                        TrinketItem.fromSnapshot(snapshot.data!.docs[index]);
                     return GestureDetector(
                       onTap: () {
                         showDialog(
@@ -70,11 +70,9 @@ class ActiveMenu extends StatelessWidget {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Image.network(activeItem.itemIMG.isEmpty ? 'https://firebasestorage.googleapis.com/v0/b/binding-of-isaac-item-finder.appspot.com/o/items%2FpassivItems%2Fcat_face_mini.png?alt=media&token=04d44347-24ef-44ac-8346-4288c49f1b7a' : activeItem.itemIMG,),
-                                    Text(activeItem.itemName),
-                                    Text(activeItem.itemEffect),
-                                    Text(activeItem.itemType),
-                                    Text(activeItem.itemPool),
+                                    Image.network(trinketItem.trinketIMG.isEmpty ? 'https://firebasestorage.googleapis.com/v0/b/binding-of-isaac-item-finder.appspot.com/o/items%2FpassivItems%2Fcat_face_mini.png?alt=media&token=04d44347-24ef-44ac-8346-4288c49f1b7a' : trinketItem.trinketIMG,),
+                                    Text(trinketItem.trinketName),
+                                    Text(trinketItem.trinketEffect),
                                   ],
                                 ),
                               ),
@@ -87,7 +85,7 @@ class ActiveMenu extends StatelessWidget {
                         children: [
                           SvgPicture.string(iconBackground),
                           Image.network(
-                            activeItem.itemIMG.isEmpty ? 'https://firebasestorage.googleapis.com/v0/b/binding-of-isaac-item-finder.appspot.com/o/items%2FpassivItems%2Fcat_face_mini.png?alt=media&token=04d44347-24ef-44ac-8346-4288c49f1b7a' : activeItem.itemIMG,
+                            trinketItem.trinketIMG.isEmpty ? 'https://firebasestorage.googleapis.com/v0/b/binding-of-isaac-item-finder.appspot.com/o/items%2FpassivItems%2Fcat_face_mini.png?alt=media&token=04d44347-24ef-44ac-8346-4288c49f1b7a' : trinketItem.trinketIMG,
                             scale: 0.5,
                           ),
                         ],
