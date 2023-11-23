@@ -5,7 +5,7 @@ class ActiveItem {
   final int itemID;
   final String itemIMG;
   final String itemName;
-  final String itemRechargerate;
+  final int itemRechargerate;
   final String itemPool;
   final String itemType;
 
@@ -25,7 +25,7 @@ class ActiveItem {
       itemID: json['itemID'] as int,
       itemIMG: json['itemIMG'] as String,
       itemName: json['itemName'] as String,
-      itemRechargerate: json['itemRechargerate'] as String,
+      itemRechargerate: json['itemRechargerate'] as int,
       itemPool: json['itemPool'] as String,
       itemType: json['itemType'] as String,
     );

@@ -1,4 +1,7 @@
+import 'package:bindingofisaacitemfinderapp/character_selection/application/character_info_service.dart';
+import 'package:bindingofisaacitemfinderapp/character_selection/domain/character_info_model.dart';
 import 'package:bindingofisaacitemfinderapp/core/presentation/widgets/core_colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:card_slider/card_slider.dart';
@@ -19,33 +22,6 @@ class CharMenu extends StatefulWidget {
 class _CharMenuState extends State<CharMenu> {
   @override
   Widget build(BuildContext context) {
-    List<Color> valuesDataColors = [
-      Colors.purple,
-      Colors.yellow,
-      Colors.green,
-      Colors.red,
-      Colors.grey,
-      Colors.blue,
-    ];
-
-    List<Widget> valuesWidget = [];
-    for (int i = 0; i < valuesDataColors.length; i++) {
-      valuesWidget.add(Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.0),
-            color: valuesDataColors[i],
-          ),
-          child: Align(
-            alignment: Alignment.center,
-            child: Text(
-              i.toString(),
-              style: const TextStyle(
-                fontSize: 28,
-              ),
-            ),
-          )));
-    }
-
     return Scaffold(
       backgroundColor: kColorPrimary,
       appBar: AppBar(
@@ -58,12 +34,54 @@ class _CharMenuState extends State<CharMenu> {
           ),
         ),
       ),
-      body: CardSlider(
-        cards: valuesWidget,
-        bottomOffset: .0003,
-        cardHeight: 0.75,
-        containerHeight: MediaQuery.of(context).size.height - 100,
-        itemDotOffset: -0.05,
+      body: StreamBuilder<QuerySnapshot>(
+        stream: CharacterInfoService().getCharacterInfoStream(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const CircularProgressIndicator();
+          }
+
+          List<CharacterInfo> characters = snapshot.data!.docs
+              .map((doc) => CharacterInfo.fromSnapshot(doc))
+              .toList();
+
+          List<Widget> characterCards = characters.map((character) {
+            return Stack(alignment: Alignment.center, children: [
+              SvgPicture.string(charBackground),
+              SizedBox(
+                height: 500,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.network(
+                      character.characterIMG.isEmpty
+                          ? 'https://firebasestorage.googleapis.com/v0/b/binding-of-isaac-item-finder.appspot.com/o/items%2FpassivItems%2Fcat_face_mini.png?alt=media&token=04d44347-24ef-44ac-8346-4288c49f1b7a'
+                          : character.characterIMG,
+                    ),
+                    Text(character.characterName),
+                    Text(character.startingItem),
+                    Text(character.startingPickups),
+                    Text(character.startingLife),
+                    Text(character.startingDamage),
+                    Text(character.startingTears),
+                    Text(character.startingShotspeed.toString()),
+                    Text(character.startingRange.toString()),
+                    Text(character.startingTears),
+                    Text(character.startingSpeed.toString()),
+                  ],
+                ),
+              ),
+            ]);
+          }).toList();
+
+          return CardSlider(
+            cards: characterCards,
+            bottomOffset: .0003,
+            cardHeight: 1,
+            containerHeight: MediaQuery.of(context).size.height - 100,
+            itemDotOffset: -0.05,
+          );
+        },
       ),
     );
   }
